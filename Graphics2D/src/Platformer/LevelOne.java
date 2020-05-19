@@ -2,13 +2,10 @@ package Platformer;
 
 
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
-import static org.newdawn.slick.Input.KEY_F;
-import static org.newdawn.slick.Input.KEY_LSHIFT;
+import static org.newdawn.slick.Input.*;
 
 public class LevelOne extends BasicGameState {
     private Guy guy;
@@ -27,9 +24,9 @@ public class LevelOne extends BasicGameState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         guy = new Guy(50, 50, 25, 25);
-        platform = new Rectangle(0, SetupClass.height-100, SetupClass.width,20);
+        platform = new Rectangle(0, SetupClass.height-100, SetupClass.width,200);
         platform1 = new Rectangle(SetupClass.width/2, SetupClass.height - 500, 100, 300);
-        platform2 = new Rectangle(0, 0, 20, SetupClass.height);
+        platform2 = new Rectangle(-100, 0, 100, SetupClass.height);
         platform3 = new Rectangle(0, platform.getY()-100, 100, 100);
     }
 
@@ -61,7 +58,7 @@ public class LevelOne extends BasicGameState {
         guy.checkForCollision(platform3);
 
         if(gameContainer.getInput().isKeyDown(KEY_LSHIFT)){
-            timeCoeff = 0.3f;
+            timeCoeff = 0.4f;
         }
         else timeCoeff =1;
 
