@@ -17,6 +17,9 @@ public class LevelOne extends BasicGameState {
     private Rectangle wall2;
     private Rectangle platform3;
 
+    private Music musicbg;
+
+
     @Override
     public int getID() {
         return 0;
@@ -30,7 +33,14 @@ public class LevelOne extends BasicGameState {
         wall1 = new Rectangle(-100, 0, 100, SetupClass.height);
         wall2 = new Rectangle(SetupClass.width, 0, 100, SetupClass.height);
         platform3 = new Rectangle(0, platform.getY()-100, 100, 100);
+        try {
 
+
+        musicbg = new Music("C:\\Users\\atcat\\Documents\\Game\\Graphics2D\\src\\sound\\hotline.wav");
+
+        musicbg.loop();
+            musicbg.setVolume(0.1f);
+         }catch (Exception e){}
     }
 
     @Override

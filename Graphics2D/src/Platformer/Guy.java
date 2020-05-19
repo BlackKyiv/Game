@@ -5,6 +5,7 @@ package Platformer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 
@@ -22,11 +23,14 @@ public class Guy extends Rectangle {
     private Rectangle landTangle = null;
     private boolean blockedLeft = false;
     private boolean blockedRight = false;
+    private Sound dash;
 
 
 
     public Guy(float x, float y, float width, float height) throws SlickException {
         super(x, y, width, height);
+        dash = new Sound("C:\\Users\\atcat\\Documents\\Game\\Graphics2D\\src\\sound\\dash.wav");
+
     }
 
 
@@ -64,10 +68,12 @@ public class Guy extends Rectangle {
             if(blockedLeft) {
                 move(3, 0);
                 speedX =speed*1.5f;
+                dash.play();
             }
             if(blockedRight) {
                 move(-3, 0);
-                speedX =speed*1.5f;
+                speedX =-speed*1.5f;
+
             }
             this.move(0,-1);
             setLanded(false);
