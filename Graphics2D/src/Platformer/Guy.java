@@ -2,13 +2,9 @@ package Platformer;
 
 
 
-import com.typesafe.config.ConfigException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Line;
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
 
@@ -17,11 +13,13 @@ public class Guy extends Rectangle {
     private float speedY = 0;
 
     private float speed = 7f;
+    private float jump = 8;
 
-    private float time = 0.1666666f;
+    private float deltaSeconds = 0.1666666f;
+    private float timeCoeff = 0.5f;
     private float gravity = 9.89f;
     private boolean landed = false;
-    private Rectangle landTangel = null;
+    private Rectangle landTangle = null;
     private boolean blockedLeft = false;
     private boolean blockedRight = false;
 
@@ -33,12 +31,13 @@ public class Guy extends Rectangle {
 
 
 
-    public void update(){
-        if(!isLanded()) move(speedX, speedY);
-        gravityPull();
+    public void update(float timeCoeff){
+       this.timeCoeff = timeCoeff;
+       if(!isLanded()) move(speedX*timeCoeff, speedY*timeCoeff);
+       gravityPull();
 
-        blockedLeft = false;
-        blockedRight = false;
+       blockedLeft = false;
+       blockedRight = false;
     }
 
     public int getSpeedY(){
@@ -48,7 +47,7 @@ public class Guy extends Rectangle {
 
     private void gravityPull(){
         if(!landed){
-            speedY += gravity * Math.pow(time, 2);
+            speedY += timeCoeff*gravity * Math.pow(deltaSeconds, 2);
         }
 
     }
@@ -71,21 +70,26 @@ public class Guy extends Rectangle {
             }
             this.move(0,-1);
             setLanded(false);
-            speedY = -5;
-            speedY = -7;
+            speedY = -jump;
         }
         if(gameContainer.getInput().isKeyDown(Input.KEY_A)&&!blockedLeft){
             if(landed) {
-                this.move(-speed, 0);
+                this.move(-speed*timeCoeff, 0);
             }
-            else speedX = -speed;
+            else {
+                speedX = -speed;
+            }
+
 
         }
         if(gameContainer.getInput().isKeyDown(Input.KEY_D)&&!blockedRight){
             if(landed) {
-                this.move(speed, 0);
+                this.move(speed*timeCoeff, 0);
             }
-            else speedX = speed;
+            else{
+                if(timeCoeff < 1 )speedX = speed +  speed*timeCoeff;
+                else speedX = speed;
+            }
         }
     }
 
@@ -97,12 +101,12 @@ public class Guy extends Rectangle {
         Rectangle leg1 = new Rectangle(this.getCenterX(), this.getY()+this.getHeight(),1,1);
         Rectangle leg2 = new Rectangle(this.getCenterX(), this.getY()+this.getHeight(),1,1);
 
-        if(leg1.intersects(platform)||leg2.intersects(platform) && landTangel != null && landTangel.equals(platform)){
+        if(leg1.intersects(platform)||leg2.intersects(platform) && landTangle != null && landTangle.equals(platform)){
             this.setY(platform.getY()-this.getHeight() );
             setLanded(true);
-            landTangel = platform;
+            landTangle = platform;
         }
-        else if(landTangel != null && landTangel.equals(platform)){
+        else if(landTangle != null && landTangle.equals(platform)){
             setLanded(false);
         }
 
@@ -145,6 +149,6 @@ public class Guy extends Rectangle {
             speedX = 0;
             speedY = 0;
         }
-        else landTangel = null;
+        else landTangle = null;
     }
 }

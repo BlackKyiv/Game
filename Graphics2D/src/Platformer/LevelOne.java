@@ -7,8 +7,12 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import static org.newdawn.slick.Input.KEY_F;
+import static org.newdawn.slick.Input.KEY_LSHIFT;
+
 public class LevelOne extends BasicGameState {
     private Guy guy;
+    private float timeCoeff = 1;
     private Rectangle terrain;
     private Rectangle platform;
     private Rectangle platform1;
@@ -23,7 +27,6 @@ public class LevelOne extends BasicGameState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         guy = new Guy(50, 50, 25, 25);
-        terrain = new Rectangle(0, SetupClass.height-100, SetupClass.width, 100);
         platform = new Rectangle(0, SetupClass.height-100, SetupClass.width,20);
         platform1 = new Rectangle(SetupClass.width/2, SetupClass.height - 500, 100, 300);
         platform2 = new Rectangle(0, 0, 20, SetupClass.height);
@@ -32,8 +35,6 @@ public class LevelOne extends BasicGameState {
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        graphics.setColor(Color.darkGray);
-        graphics.fill(terrain);
 
         graphics.setColor(Color.green);
         graphics.fill(platform);
@@ -52,13 +53,17 @@ public class LevelOne extends BasicGameState {
     }
 
     @Override
-    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-
-        guy.update();
+    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int deltaSeconds) throws SlickException {
+        guy.update(timeCoeff);
         guy.checkForCollision(platform);
         guy.checkForCollision(platform1);
         guy.checkForCollision(platform2);
         guy.checkForCollision(platform3);
+
+        if(gameContainer.getInput().isKeyDown(KEY_LSHIFT)){
+            timeCoeff = 0.3f;
+        }
+        else timeCoeff =1;
 
         guy.controls(gameContainer);
     }
