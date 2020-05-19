@@ -62,11 +62,12 @@ public class Guy extends Rectangle {
     public void controls(GameContainer gameContainer){
         if(gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)&&(landed||blockedRight||blockedLeft)){
             if(blockedLeft) {
-                move(1, 0);
+                move(3, 0);
+                speedX =speed*1.5f;
             }
             if(blockedRight) {
-                move(-1, 0);
-
+                move(-3, 0);
+                speedX =speed*1.5f;
             }
             this.move(0,-1);
             setLanded(false);

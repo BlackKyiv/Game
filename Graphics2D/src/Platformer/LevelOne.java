@@ -13,7 +13,8 @@ public class LevelOne extends BasicGameState {
     private Rectangle terrain;
     private Rectangle platform;
     private Rectangle platform1;
-    private Rectangle platform2;
+    private Rectangle wall1;
+    private Rectangle wall2;
     private Rectangle platform3;
 
     @Override
@@ -23,11 +24,13 @@ public class LevelOne extends BasicGameState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        guy = new Guy(50, 50, 25, 25);
+        guy = new Guy(30, 100, 30, 50);
         platform = new Rectangle(0, SetupClass.height-100, SetupClass.width,200);
         platform1 = new Rectangle(SetupClass.width/2, SetupClass.height - 500, 100, 300);
-        platform2 = new Rectangle(-100, 0, 100, SetupClass.height);
+        wall1 = new Rectangle(-100, 0, 100, SetupClass.height);
+        wall2 = new Rectangle(SetupClass.width, 0, 100, SetupClass.height);
         platform3 = new Rectangle(0, platform.getY()-100, 100, 100);
+
     }
 
     @Override
@@ -54,7 +57,8 @@ public class LevelOne extends BasicGameState {
         guy.update(timeCoeff);
         guy.checkForCollision(platform);
         guy.checkForCollision(platform1);
-        guy.checkForCollision(platform2);
+        guy.checkForCollision(wall1);
+        guy.checkForCollision(wall2);
         guy.checkForCollision(platform3);
 
         if(gameContainer.getInput().isKeyDown(KEY_LSHIFT)){
