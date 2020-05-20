@@ -27,12 +27,12 @@ public class Guy extends Rectangle {
 
 
 
+
     public Guy(float x, float y, float width, float height) throws SlickException {
         super(x, y, width, height);
         dash = new Sound("C:\\Users\\atcat\\Documents\\Game\\Graphics2D\\src\\sound\\dash.wav");
 
     }
-
 
 
     public void update(float timeCoeff){
@@ -157,5 +157,18 @@ public class Guy extends Rectangle {
             speedY = 0;
         }
         else landTangle = null;
+    }
+
+
+    public void getAnimation(){
+        
+    }
+
+    public void turnLeft(){
+
+    }
+
+    public void turnRight(){
+
     }
 }
